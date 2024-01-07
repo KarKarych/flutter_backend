@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.example.flutter.util.Constants.PRODUCT_COMPARATOR;
 import static com.example.flutter.util.Constants.SEARCH_PATTERN;
 import static com.example.flutter.util.exception.NotFoundException.Code.PRODUCT_NOT_FOUND;
 
@@ -38,6 +39,7 @@ public class ProductServiceImpl implements ProductService {
 
         return products.stream()
                 .map(productMapper::toModel)
+                .sorted(PRODUCT_COMPARATOR)
                 .toList();
     }
 

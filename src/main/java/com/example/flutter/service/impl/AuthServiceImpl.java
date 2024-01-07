@@ -10,7 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.example.flutter.util.Constants.HEADER_VALUE_START;
+import static com.example.flutter.util.Constants.AUTHORIZATION_HEADER_START;
 import static com.example.flutter.util.exception.BadRequestException.Code.PASSWORDS_DO_NOT_MATCH;
 import static com.example.flutter.util.exception.NotFoundException.Code.USER_NOT_FOUND;
 
@@ -31,6 +31,6 @@ public class AuthServiceImpl implements AuthService {
             throw PASSWORDS_DO_NOT_MATCH.get("login = " + request.login());
         }
 
-        return new AuthModel(HEADER_VALUE_START + user.getId());
+        return new AuthModel(AUTHORIZATION_HEADER_START + user.getId());
     }
 }

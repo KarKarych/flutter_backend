@@ -10,7 +10,7 @@ import org.springframework.security.web.authentication.preauth.PreAuthenticatedA
 
 import java.util.UUID;
 
-import static com.example.flutter.util.Constants.HEADER_VALUE_START;
+import static com.example.flutter.util.Constants.AUTHORIZATION_HEADER_START;
 import static java.util.UUID.fromString;
 
 @Slf4j
@@ -21,11 +21,11 @@ public class BearerAuthenticationConverter implements AuthenticationConverter {
     public Authentication convert(HttpServletRequest request) {
         var authentication = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        if (authentication == null || !authentication.startsWith(HEADER_VALUE_START)) {
+        if (authentication == null || !authentication.startsWith(AUTHORIZATION_HEADER_START)) {
             return null;
         }
 
-        var rawToken = authentication.substring(HEADER_VALUE_START.length());
+        var rawToken = authentication.substring(AUTHORIZATION_HEADER_START.length());
 
         if (getPrincipal(rawToken) == null) {
             return null;

@@ -1,5 +1,10 @@
 server-url: http://relex-coin.relex.ru:7766/api
 
+minio:
+  url: https://relex-coin.relex.ru:9300
+  product-bucket: fshoes-bucket
+  article-bucket: flutter-bucket
+
 server:
   http2:
     enabled: true

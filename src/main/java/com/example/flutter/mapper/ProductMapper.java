@@ -6,18 +6,39 @@ import com.example.flutter.model.get.ProductModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.List;
 
 @Mapper
-public interface ProductMapper {
+public abstract class ProductMapper {
+
+    @Value("${minio.url}")
+    protected String minioUrl;
+
+    @Value("${minio.product-bucket}")
+    protected String productBucket;
 
     @Mapping(target = "sizes", source = "sizes", qualifiedByName = "sizesToModel")
-    ProductModel toModel(Product product);
+    @Mapping(target = "pictureUrls", source = "pictureUrls", qualifiedByName = "pictureUrlsToModel")
+    public abstract ProductModel toModel(Product product);
+
+    @Named("pictureUrlsToModel")
+    List<String> generatePictureUrlsToModel(List<String> pictureUrls) {
+        return pictureUrls.stream()
+                .sorted()
+                .map(this::createUrl)
+                .toList();
+    }
+
+    private String createUrl(String name) {
+        return "%s/%s/%s".formatted(minioUrl, productBucket, name);
+    }
 
     @Named("sizesToModel")
-    default List<SizeType> generateSizesToModel(List<Integer> sizesShort) {
+    List<SizeType> generateSizesToModel(List<Integer> sizesShort) {
         return sizesShort.stream()
+                .sorted()
                 .map(SizeType::getValueFromId)
                 .toList();
     }

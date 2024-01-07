@@ -9,6 +9,5 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 public interface AuthService {
 
-
     AuthModel login(@Valid @NotNull AuthCreateModel request);
 }
