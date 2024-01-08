@@ -1,6 +1,5 @@
 package com.example.flutter.service.impl;
 
-import com.example.flutter.entity.Bucket;
 import com.example.flutter.entity.FlutterUser;
 import com.example.flutter.entity.Order;
 import com.example.flutter.mapper.OrderMapper;
@@ -17,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import static com.example.flutter.entity.enumeration.OrderType.getRandom;
 import static com.example.flutter.model.create.TransactionCreateModel.of;
@@ -51,9 +49,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public OrderModel createFromBucket(FlutterUser user) {
-        var productsToBuy = bucketRepository.findByIdUserId(user.getId()).stream()
-                .map(Bucket::getProduct)
-                .collect(Collectors.toSet());
+        var productsToBuy = bucketRepository.findByIdUserId(user.getId());
 
         if (productsToBuy.isEmpty()) {
             throw BUCKET_IS_EMPTY.get("login = " + user.getLogin());

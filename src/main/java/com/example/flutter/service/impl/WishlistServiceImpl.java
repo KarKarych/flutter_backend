@@ -1,8 +1,6 @@
 package com.example.flutter.service.impl;
 
 import com.example.flutter.entity.FlutterUser;
-import com.example.flutter.entity.Product;
-import com.example.flutter.entity.Wishlist;
 import com.example.flutter.mapper.ProductMapper;
 import com.example.flutter.mapper.WishlistMapper;
 import com.example.flutter.model.get.ProductModel;
@@ -14,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -31,8 +28,6 @@ public class WishlistServiceImpl implements WishlistService {
     @Override
     public List<ProductModel> getByUserId(UUID userId) {
         return wishlistRepository.findByIdUserId(userId).stream()
-                .map(Wishlist::getProduct)
-                .sorted(Comparator.comparing(Product::getName))
                 .map(productMapper::toModel)
                 .toList();
     }

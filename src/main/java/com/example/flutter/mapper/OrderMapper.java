@@ -9,7 +9,7 @@ import com.example.flutter.model.get.ProductModel;
 import org.mapstruct.*;
 
 import java.util.Comparator;
-import java.util.Set;
+import java.util.List;
 
 @Mapper(uses = {
         ProductMapper.class
@@ -21,7 +21,7 @@ public interface OrderMapper {
     OrderModel toModel(Order order);
 
     @Named("amountToModel")
-    default Integer generateAmountToModel(Set<Product> products) {
+    default Integer generateAmountToModel(List<Product> products) {
         return products.stream()
                 .map(Product::getPrice)
                 .reduce(0, Integer::sum);
@@ -37,5 +37,5 @@ public interface OrderMapper {
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "products", source = "products")
     @Mapping(target = "user", source = "user")
-    Order toEntity(OrderType status, Set<Product> products, FlutterUser user);
+    Order toEntity(OrderType status, List<Product> products, FlutterUser user);
 }

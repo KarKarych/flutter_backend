@@ -10,11 +10,10 @@ import java.util.UUID;
 
 public interface ArticleRepository extends JpaRepository<Article, UUID> {
 
+    @Query("SELECT a FROM Article a ORDER BY a.createdAt DESC")
     @EntityGraph(attributePaths = {"articleCategories"})
-    @Query("SELECT a FROM Article a")
     List<Article> findAllWithCategories();
 
-    @EntityGraph(attributePaths = {"articleCategories"})
     @Query("""
             SELECT  a
              FROM   Article a
@@ -22,5 +21,6 @@ public interface ArticleRepository extends JpaRepository<Article, UUID> {
                     a.text ILIKE :searchQuery
              ORDER BY a.createdAt DESC
             """)
+    @EntityGraph(attributePaths = {"articleCategories"})
     List<Article> findBySearchQuery(String searchQuery);
 }

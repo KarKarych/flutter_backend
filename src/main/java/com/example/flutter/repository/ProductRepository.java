@@ -14,7 +14,6 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
              FROM   Product p
              WHERE  p.name ILIKE :searchQuery OR
                     p.description ILIKE :searchQuery
-             ORDER BY p.name
             """)
     List<Product> findBySearchQuery(String searchQuery);
 }
