@@ -3,7 +3,6 @@ package com.example.flutter.model.get;
 import java.util.UUID;
 
 public record UserModel(
-
         UUID id,
         String login,
         String email,

@@ -7,9 +7,6 @@ import java.util.List;
 import java.util.UUID;
 
 public record BucketProductModel(
-
-        @NotEmpty
-        @NotNull
-        List<UUID> productIds
+        @NotEmpty @NotNull List<UUID> productIds
 ) {
 }

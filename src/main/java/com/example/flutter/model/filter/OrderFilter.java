@@ -1,6 +1,9 @@
 package com.example.flutter.model.filter;
 
-import com.example.flutter.entity.enumeration.OrderStatus;
+import com.example.flutter.entity.enumeration.OrderType;
+import jakarta.annotation.Nullable;
 
-public record OrderFilter(OrderStatus status) {
+public record OrderFilter(
+        @Nullable OrderType status
+) {
 }

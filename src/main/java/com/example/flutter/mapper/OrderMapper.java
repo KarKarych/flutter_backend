@@ -1,7 +1,9 @@
 package com.example.flutter.mapper;
 
+import com.example.flutter.entity.FlutterUser;
 import com.example.flutter.entity.Order;
 import com.example.flutter.entity.Product;
+import com.example.flutter.entity.enumeration.OrderType;
 import com.example.flutter.model.get.OrderModel;
 import com.example.flutter.model.get.ProductModel;
 import org.mapstruct.*;
@@ -29,4 +31,11 @@ public interface OrderMapper {
     default void sortProductsByName(@MappingTarget OrderModel orderModel) {
         orderModel.products().sort(Comparator.comparing(ProductModel::name));
     }
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "status", source = "status")
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "products", source = "products")
+    @Mapping(target = "user", source = "user")
+    Order toEntity(OrderType status, Set<Product> products, FlutterUser user);
 }

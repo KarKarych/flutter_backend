@@ -1,6 +1,6 @@
 package com.example.flutter.entity;
 
-import com.example.flutter.entity.enumeration.OrderType;
+import com.example.flutter.entity.enumeration.OperationType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -12,16 +12,16 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
-import java.util.*;
+import java.util.UUID;
 
 @Getter
 @Setter
 @SuperBuilder
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "\"order\"", schema = "public")
+@Table(name = "transaction", schema = "public")
 @Entity
-public class Order {
+public class Transaction {
 
     @Id
     @UuidGenerator
@@ -29,21 +29,21 @@ public class Order {
     private UUID id;
 
     @NotNull
-    @Column(name = "status", nullable = false)
-    private OrderType status;
+    @Column(name = "amount", nullable = false)
+    private Integer amount;
+
+    @NotNull
+    @Column(name = "type", nullable = false)
+    private OperationType type;
+
+    @NotNull
+    @Column(name = "target", nullable = false)
+    private String target;
 
     @NotNull
     @CreatedDate
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
-
-    @ManyToMany
-    @JoinTable(
-            name = "order_product",
-            joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
-    private Set<Product> products;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

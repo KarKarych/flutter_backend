@@ -1,4 +1,8 @@
 package com.example.flutter.model.filter;
 
-public record ArticleFilter(String searchQuery) {
+import jakarta.annotation.Nullable;
+
+public record ArticleFilter(
+        @Nullable String searchQuery
+) {
 }

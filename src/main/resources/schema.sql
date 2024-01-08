@@ -70,12 +70,12 @@ CREATE TABLE IF NOT EXISTS "order_product"
     PRIMARY KEY (order_id, product_id)
 );
 
-CREATE TABLE IF NOT EXISTS "transfer_history"
+CREATE TABLE IF NOT EXISTS "transaction"
 (
-    id             UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    user_id        UUID        NOT NULL REFERENCES "user",
-    amount         INT         NOT NULL,
-    datetime       TIMESTAMPTZ NOT NULL,
-    operation_type SMALLINT    NOT NULL,
-    target         VARCHAR     NOT NULL
+    id         UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id    UUID        NOT NULL REFERENCES "user",
+    amount     INT         NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL,
+    type       SMALLINT    NOT NULL,
+    target     VARCHAR     NOT NULL
 );

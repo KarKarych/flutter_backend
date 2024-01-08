@@ -1,7 +1,7 @@
 package com.example.flutter.controller;
 
 import com.example.flutter.entity.FlutterUser;
-import com.example.flutter.entity.enumeration.OrderStatus;
+import com.example.flutter.entity.enumeration.OrderType;
 import com.example.flutter.model.basic.ContentModel;
 import com.example.flutter.model.filter.OrderFilter;
 import com.example.flutter.model.get.OrderModel;
@@ -26,7 +26,7 @@ public class OrderController {
     @GetMapping
     public ContentModel<List<OrderModel>> getByUserId(
             @AuthenticationPrincipal FlutterUser currentUser,
-            @RequestParam(required = false) OrderStatus status
+            @RequestParam(required = false) OrderType status
     ) {
         var response = service.getByUserId(currentUser.getId(), new OrderFilter(status));
         return ContentModel.okContentModel(response);

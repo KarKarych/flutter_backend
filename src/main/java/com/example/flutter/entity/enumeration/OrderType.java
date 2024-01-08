@@ -5,7 +5,7 @@ import lombok.Getter;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Getter
-public enum OrderStatus {
+public enum OrderType {
 
     PENDING(1, "Обрабатывается"),
     PACKAGED(2, "Упакован"),
@@ -15,7 +15,7 @@ public enum OrderStatus {
     private final Integer id;
     private final String displayMessage;
 
-    OrderStatus(Integer id, String displayMessage) {
+    OrderType(Integer id, String displayMessage) {
         this.id = id;
         this.displayMessage = displayMessage;
     }
@@ -24,11 +24,11 @@ public enum OrderStatus {
         return id.shortValue();
     }
 
-    public static OrderStatus getValueFromId(Short value) {
+    public static OrderType getValueFromId(Short value) {
         if (value == null) {
             return null;
         }
-        for (final OrderStatus type : OrderStatus.values()) {
+        for (final OrderType type : OrderType.values()) {
             if (value.equals(type.getId())) {
                 return type;
             }
@@ -36,7 +36,7 @@ public enum OrderStatus {
         return null;
     }
 
-    public static OrderStatus getRandom() {
+    public static OrderType getRandom() {
         int randomStatus = ThreadLocalRandom.current().nextInt(0, values().length);
         return values()[randomStatus];
     }
