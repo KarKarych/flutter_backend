@@ -11,6 +11,7 @@ import org.springframework.security.web.authentication.preauth.PreAuthenticatedA
 import java.util.UUID;
 
 import static com.example.flutter.util.Constants.AUTHORIZATION_HEADER_START;
+import static com.example.flutter.util.Constants.FAKE_PASSWORD;
 import static java.util.UUID.fromString;
 
 @Slf4j
@@ -26,12 +27,13 @@ public class BearerAuthenticationConverter implements AuthenticationConverter {
         }
 
         var rawToken = authentication.substring(AUTHORIZATION_HEADER_START.length());
+        var principal = getPrincipal(rawToken);
 
-        if (getPrincipal(rawToken) == null) {
+        if (principal == null) {
             return null;
         }
 
-        return new PreAuthenticatedAuthenticationToken(rawToken, "Лапы и хвост -- мои документы");
+        return new PreAuthenticatedAuthenticationToken(principal, FAKE_PASSWORD);
     }
 
     private static UUID getPrincipal(String rawToken) {

@@ -25,8 +25,7 @@ public abstract class ProductMapper {
 
     @Named("pictureUrlsToModel")
     List<String> generatePictureUrlsToModel(List<String> pictureUrls) {
-        return pictureUrls.stream()
-                .sorted()
+        return pictureUrls.stream().sorted()
                 .map(this::createUrl)
                 .toList();
     }
@@ -37,8 +36,7 @@ public abstract class ProductMapper {
 
     @Named("sizesToModel")
     List<SizeType> generateSizesToModel(List<Integer> sizesShort) {
-        return sizesShort.stream()
-                .sorted()
+        return sizesShort.stream().sorted()
                 .map(SizeType::getValueFromId)
                 .toList();
     }

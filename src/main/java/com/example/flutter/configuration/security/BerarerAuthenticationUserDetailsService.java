@@ -16,8 +16,7 @@ public class BerarerAuthenticationUserDetailsService implements AuthenticationUs
 
     @Override
     public UserDetails loadUserDetails(PreAuthenticatedAuthenticationToken token) throws UsernameNotFoundException {
-        UUID userId = UUID.fromString(token.getPrincipal().toString());
-
+        UUID userId = (UUID) token.getPrincipal();
         return userRepository.findById(userId)
                 .orElseThrow(() -> new UsernameNotFoundException("User with given userId = %s not found".formatted(userId)));
     }

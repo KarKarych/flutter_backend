@@ -20,8 +20,11 @@ public class ProductController {
     private final ProductService service;
 
     @GetMapping
-    public ContentModel<List<ProductModel>> getAll(@RequestParam(required = false) String searchQuery) {
-        var response = service.getAll(new ProductFilter(searchQuery));
+    public ContentModel<List<ProductModel>> getAll(
+            @RequestParam(required = false) String searchQuery,
+            @RequestParam(required = false) List<Short> categories
+    ) {
+        var response = service.getAll(ProductFilter.of(searchQuery, categories));
         return ContentModel.okContentModel(response);
     }
 

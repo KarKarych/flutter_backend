@@ -35,13 +35,9 @@ public enum ArticleCategoryType {
         this.displayMessage = displayMessage;
     }
 
+    @JsonValue
     public Short getId() {
         return id.shortValue();
-    }
-
-    @JsonValue
-    public String getDisplayMessage() {
-        return displayMessage;
     }
 
     public static ArticleCategoryType getValueFromId(Short value) {

@@ -7,7 +7,7 @@ import lombok.Getter;
 public enum ProductCategoryType {
 
     RUNNING(1, "Кроссовки для бега"),
-    TRAIL_RUNNING(2, "Кроссовки для трейлового бега"),
+    FOOTBALL(2, "Кроссовки для футбола"),
     OUTDOOR_EXPLORER(3, "Обувь для активного отдыха"),
     CROSS_TRAINING(4, "Обувь для кроссовых тренировок"),
     MARATHON(5, "Спортивная обувь и тренажеры для зала"),
@@ -22,13 +22,9 @@ public enum ProductCategoryType {
         this.displayMessage = displayMessage;
     }
 
+    @JsonValue
     public Short getId() {
         return id.shortValue();
-    }
-
-    @JsonValue
-    public String getDisplayMessage() {
-        return displayMessage;
     }
 
     public static ProductCategoryType getValueFromId(Short value) {

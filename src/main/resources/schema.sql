@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS "user"
     id            UUID PRIMARY KEY        DEFAULT uuid_generate_v4(),
     login         VARCHAR UNIQUE NOT NULL,
     email         VARCHAR UNIQUE NOT NULL,
+    phone_number  VARCHAR,
     last_name     VARCHAR        NOT NULL,
     first_name    VARCHAR        NOT NULL,
     password_hash VARCHAR        NOT NULL,
@@ -67,6 +68,8 @@ CREATE TABLE IF NOT EXISTS "order_product"
 (
     order_id   UUID NOT NULL REFERENCES "order",
     product_id UUID NOT NULL REFERENCES "product",
+    size       INT  NOT NULL,
+    amount     INT  NOT NULL DEFAULT 0,
     PRIMARY KEY (order_id, product_id)
 );
 
