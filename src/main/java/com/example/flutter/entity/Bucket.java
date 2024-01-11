@@ -1,7 +1,9 @@
 package com.example.flutter.entity;
 
 import com.example.flutter.entity.composite.BucketId;
+import com.example.flutter.entity.enumeration.SizeType;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,9 +28,19 @@ public class Bucket {
     @JoinColumn(name = "user_id", nullable = false)
     private FlutterUser user;
 
-    public Bucket(Product product, FlutterUser user) {
+    @NotNull
+    @Column(name = "size", nullable = false)
+    private SizeType size;
+
+    @NotNull
+    @Column(name = "amount", nullable = false)
+    private Integer amount;
+
+    public Bucket(Product product, FlutterUser user, SizeType size, Integer amount) {
         this.id = new BucketId(product.getId(), user.getId());
         this.product = product;
         this.user = user;
+        this.size = size;
+        this.amount = amount;
     }
 }

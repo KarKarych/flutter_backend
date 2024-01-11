@@ -22,4 +22,8 @@ public interface UserRepository extends JpaRepository<FlutterUser, UUID> {
             WHERE   u.id = :id
             """)
     void updateBalanceById(Integer balance, UUID id);
+
+    boolean existsByLogin(String login);
+
+    boolean existsByEmail(String email);
 }

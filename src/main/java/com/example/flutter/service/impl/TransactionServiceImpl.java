@@ -50,7 +50,7 @@ public class TransactionServiceImpl implements TransactionService {
         var balance = user.getBalance();
 
         if (amount > balance) {
-            throw INSUFFICIENT_BALANCE.get("login = " + user.getLogin());
+            throw INSUFFICIENT_BALANCE.get(user.getLogin());
         }
         userRepository.updateBalanceById(balance - amount, user.getId());
 

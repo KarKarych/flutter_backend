@@ -25,10 +25,10 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public AuthModel login(AuthCreateModel request) {
         FlutterUser user = userRepository.findByLogin(request.login())
-                .orElseThrow(() -> USER_NOT_FOUND.get("login = " + request.login()));
+                .orElseThrow(() -> USER_NOT_FOUND.get("login = %s".formatted(request.login())));
 
         if (!passwordEncoder.matches(request.password(), user.getPassword())) {
-            throw PASSWORDS_DO_NOT_MATCH.get("login = " + request.login());
+            throw PASSWORDS_DO_NOT_MATCH.get(request.login());
         }
 
         return new AuthModel(AUTHORIZATION_HEADER_START + user.getId());

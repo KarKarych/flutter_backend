@@ -24,6 +24,8 @@ public class BadRequestException extends RuntimeException {
         PASSWORDS_DO_NOT_MATCH("Passwords don't match"),
         INSUFFICIENT_BALANCE("Insufficient balance"),
         BUCKET_IS_EMPTY("The bucket is empty"),
+        LOGIN_ALREADY_EXISTS("Login already exists"),
+        EMAIL_ALREADY_EXISTS("Email already exists"),
         ;
 
         /**
@@ -41,8 +43,13 @@ public class BadRequestException extends RuntimeException {
             return new BadRequestException(this, description);
         }
 
-        public BadRequestException get(String additionalInfo) {
-            String errorMessage = MessageFormat.format(EXCEPTION_MESSAGE_PATTERN, this.description, additionalInfo);
+        public BadRequestException get(String currentLogin, String additionalInfo) {
+            String errorMessage = MessageFormat.format(EXCEPTION_MESSAGE_PATTERN, this.description, "currentLogin = %s, %s".formatted(currentLogin, additionalInfo));
+            return new BadRequestException(this, errorMessage);
+        }
+
+        public BadRequestException get(String currentLogin) {
+            String errorMessage = MessageFormat.format(EXCEPTION_MESSAGE_PATTERN, this.description, "currentLogin = %s".formatted(currentLogin));
             return new BadRequestException(this, errorMessage);
         }
 

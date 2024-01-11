@@ -1,10 +1,10 @@
-INSERT INTO "user" (id, login, email, last_name, first_name, password_hash, picture_url, balance)
+INSERT INTO "user" (id, login, email, last_name, first_name, password_hash, picture_url, address, phone_number, balance)
 VALUES ('123e4567-e89b-12d3-a456-426614174000', 'woodufx', 'woodufx@prod.com', 'Лиманский', 'Дмитрий',
-        '$2a$10$tzx6R/K0W.m3dax8SYbH3ecafhzZ6OgLOF4WDOr/Iq2ZtAvvV.KHe', 'https://relex-coin.relex.ru:9300/user-profile-pictures-bucket/73', 50000000),
+        '$2a$10$tzx6R/K0W.m3dax8SYbH3ecafhzZ6OgLOF4WDOr/Iq2ZtAvvV.KHe', 'https://relex-coin.relex.ru:9300/user-profile-pictures-bucket/73', 'Семилуки', '87921234576', 50000000),
        ('d5c33420-637e-458f-95db-8091f91c511a', 'wvolfff', 'wvolfff@alpha.net', 'Сметанин', 'Иван',
-        '$2a$10$tzx6R/K0W.m3dax8SYbH3ecafhzZ6OgLOF4WDOr/Iq2ZtAvvV.KHe', 'https://relex-coin.relex.ru:9300/user-profile-pictures-bucket/73', 50000000),
+        '$2a$10$tzx6R/K0W.m3dax8SYbH3ecafhzZ6OgLOF4WDOr/Iq2ZtAvvV.KHe', 'https://relex-coin.relex.ru:9300/user-profile-pictures-bucket/73', 'Воронеж', '87921234576', 50000000),
        ('fa1b64dc-319c-4504-bc3e-e2e625487f47', 'eygonb', 'eygonbh@targarien.thrones', 'Караваев', 'Валентин',
-        '$2a$10$tzx6R/K0W.m3dax8SYbH3ecafhzZ6OgLOF4WDOr/Iq2ZtAvvV.KHe', 'https://relex-coin.relex.ru:9300/user-profile-pictures-bucket/73', 50000000)
+        '$2a$10$tzx6R/K0W.m3dax8SYbH3ecafhzZ6OgLOF4WDOr/Iq2ZtAvvV.KHe', 'https://relex-coin.relex.ru:9300/user-profile-pictures-bucket/73', 'Хопёр', '87921234576', 50000000)
 ON CONFLICT DO NOTHING;
 
 INSERT INTO "product" (id, name, description, picture_urls, price, rating_percent, rating_number, category, sizes)

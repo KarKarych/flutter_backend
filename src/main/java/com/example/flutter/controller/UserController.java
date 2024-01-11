@@ -3,14 +3,12 @@ package com.example.flutter.controller;
 import com.example.flutter.entity.FlutterUser;
 import com.example.flutter.model.basic.ContentModel;
 import com.example.flutter.model.get.UserModel;
+import com.example.flutter.model.update.UserUpdateModel;
 import com.example.flutter.service.UserService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -31,6 +29,15 @@ public class UserController {
     @GetMapping("/{id}")
     public ContentModel<UserModel> getById(@PathVariable UUID id) {
         var response = service.getById(id);
+        return ContentModel.okContentModel(response);
+    }
+
+    @PutMapping("/user-info")
+    public ContentModel<UserModel> update(
+            @AuthenticationPrincipal FlutterUser currentUser,
+            @RequestBody UserUpdateModel request
+    ) {
+        var response = service.update(currentUser, request);
         return ContentModel.okContentModel(response);
     }
 }

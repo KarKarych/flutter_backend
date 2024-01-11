@@ -2,17 +2,17 @@ package com.example.flutter.mapper;
 
 import com.example.flutter.entity.FlutterUser;
 import com.example.flutter.entity.Order;
-import com.example.flutter.entity.Product;
+import com.example.flutter.entity.OrderProduct;
 import com.example.flutter.entity.enumeration.OrderType;
 import com.example.flutter.model.get.OrderModel;
-import com.example.flutter.model.get.ProductModel;
+import com.example.flutter.model.get.OrderProductModel;
 import org.mapstruct.*;
 
 import java.util.Comparator;
-import java.util.List;
+import java.util.Set;
 
 @Mapper(uses = {
-        ProductMapper.class
+        OrderProductMapper.class
 })
 public interface OrderMapper {
 
@@ -21,21 +21,21 @@ public interface OrderMapper {
     OrderModel toModel(Order order);
 
     @Named("amountToModel")
-    default Integer generateAmountToModel(List<Product> products) {
+    default Integer generateAmountToModel(Set<OrderProduct> products) {
         return products.stream()
-                .map(Product::getPrice)
+                .map(OrderProduct::getFullPrice)
                 .reduce(0, Integer::sum);
     }
 
     @AfterMapping
     default void sortProductsByName(@MappingTarget OrderModel orderModel) {
-        orderModel.products().sort(Comparator.comparing(ProductModel::name));
+        orderModel.products().sort(Comparator.comparing(OrderProductModel::productName));
     }
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "status", source = "status")
     @Mapping(target = "createdAt", ignore = true)
-    @Mapping(target = "products", source = "products")
+    @Mapping(target = "products", ignore = true)
     @Mapping(target = "user", source = "user")
-    Order toEntity(OrderType status, List<Product> products, FlutterUser user);
+    Order toEntity(OrderType status, FlutterUser user);
 }

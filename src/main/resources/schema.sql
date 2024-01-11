@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS "user"
     login         VARCHAR UNIQUE NOT NULL,
     email         VARCHAR UNIQUE NOT NULL,
     phone_number  VARCHAR,
+    address       VARCHAR,
     last_name     VARCHAR        NOT NULL,
     first_name    VARCHAR        NOT NULL,
     password_hash VARCHAR        NOT NULL,
@@ -51,8 +52,10 @@ CREATE TABLE IF NOT EXISTS "wishlist"
 
 CREATE TABLE IF NOT EXISTS "bucket"
 (
-    product_id UUID NOT NULL REFERENCES "product",
-    user_id    UUID NOT NULL REFERENCES "user",
+    product_id UUID     NOT NULL REFERENCES "product",
+    user_id    UUID     NOT NULL REFERENCES "user",
+    size       SMALLINT NOT NULL,
+    amount     INT      NOT NULL DEFAULT 0,
     PRIMARY KEY (product_id, user_id)
 );
 
@@ -66,10 +69,10 @@ CREATE TABLE IF NOT EXISTS "order"
 
 CREATE TABLE IF NOT EXISTS "order_product"
 (
-    order_id   UUID NOT NULL REFERENCES "order",
-    product_id UUID NOT NULL REFERENCES "product",
-    size       INT  NOT NULL,
-    amount     INT  NOT NULL DEFAULT 0,
+    order_id   UUID     NOT NULL REFERENCES "order",
+    product_id UUID     NOT NULL REFERENCES "product",
+    size       SMALLINT NOT NULL,
+    amount     INT      NOT NULL DEFAULT 0,
     PRIMARY KEY (order_id, product_id)
 );
 

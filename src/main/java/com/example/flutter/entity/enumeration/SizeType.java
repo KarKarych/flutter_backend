@@ -1,6 +1,5 @@
 package com.example.flutter.entity.enumeration;
 
-import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 
 @Getter
@@ -25,11 +24,6 @@ public enum SizeType {
         return id.shortValue();
     }
 
-    @JsonValue
-    public String getDisplayMessage() {
-        return displayMessage;
-    }
-
     public static SizeType getValueFromId(Short value) {
         if (value == null) {
             return null;
@@ -52,10 +46,5 @@ public enum SizeType {
             }
         }
         return null;
-    }
-
-    @Override
-    public String toString() {
-        return name().toLowerCase();
     }
 }

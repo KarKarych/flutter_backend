@@ -23,6 +23,7 @@ public class NotFoundException extends RuntimeException {
 
         USER_NOT_FOUND("User not found"),
         PRODUCT_NOT_FOUND("Product not found"),
+        PRODUCT_IN_BUCKET_NOT_FOUND("Product in bucket not found"),
         ARTICLE_NOT_FOUND("Article not found"),
         ;
 
@@ -39,6 +40,11 @@ public class NotFoundException extends RuntimeException {
 
         public NotFoundException get() {
             return new NotFoundException(this, description);
+        }
+
+        public NotFoundException get(String currentLogin, String additionalInfo) {
+            String errorMessage = MessageFormat.format(EXCEPTION_MESSAGE_PATTERN, this.description, "currentLogin = %s, %s".formatted(currentLogin, additionalInfo));
+            return new NotFoundException(this, errorMessage);
         }
 
         public NotFoundException get(String additionalInfo) {

@@ -1,11 +1,14 @@
 package com.example.flutter.service.impl;
 
+import com.example.flutter.entity.Bucket;
 import com.example.flutter.entity.FlutterUser;
 import com.example.flutter.entity.Order;
 import com.example.flutter.mapper.OrderMapper;
+import com.example.flutter.mapper.OrderProductMapper;
 import com.example.flutter.model.filter.OrderFilter;
 import com.example.flutter.model.get.OrderModel;
 import com.example.flutter.repository.BucketRepository;
+import com.example.flutter.repository.OrderProductRepository;
 import com.example.flutter.repository.OrderRepository;
 import com.example.flutter.service.BucketService;
 import com.example.flutter.service.OrderService;
@@ -27,8 +30,10 @@ import static com.example.flutter.util.exception.BadRequestException.Code.BUCKET
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
+    private final OrderProductRepository orderProductRepository;
     private final BucketRepository bucketRepository;
     private final OrderMapper orderMapper;
+    private final OrderProductMapper orderProductMapper;
     private final BucketService bucketService;
     private final TransactionService transactionService;
 
@@ -49,20 +54,34 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public OrderModel createFromBucket(FlutterUser user) {
-        var productsToBuy = bucketRepository.findByIdUserId(user.getId());
+        var productsToBuy = bucketRepository.findByUserId(user.getId());
 
         if (productsToBuy.isEmpty()) {
-            throw BUCKET_IS_EMPTY.get("login = " + user.getLogin());
+            throw BUCKET_IS_EMPTY.get(user.getLogin());
         }
 
-        var orderAmount = orderMapper.generateAmountToModel(productsToBuy);
+        var orderAmount = calculateAmount(productsToBuy);
         transactionService.pay(user, of(orderAmount));
+
+        var orderTransient = orderMapper.toEntity(getRandom(), user);
+        var orderPersisted = saveOrder(orderTransient, productsToBuy);
 
         bucketService.clear(user.getId());
 
-        var orderTransient = orderMapper.toEntity(getRandom(), productsToBuy, user);
-        var orderPersisted = orderRepository.save(orderTransient);
-
         return orderMapper.toModel(orderPersisted);
+    }
+
+    private Order saveOrder(Order orderTransient, List<Bucket> productsToBuy) {
+        var orderPersisted = orderRepository.save(orderTransient);
+        var orderProductsTransient = orderProductMapper.toEntities(orderPersisted, productsToBuy);
+        orderProductRepository.saveAllAndFlush(orderProductsTransient);
+        orderRepository.refresh(orderPersisted);
+        return orderPersisted;
+    }
+
+    private Integer calculateAmount(List<Bucket> buckets) {
+        return buckets.stream()
+                .map(bucket -> bucket.getAmount() * bucket.getProduct().getPrice())
+                .reduce(0, Integer::sum);
     }
 }

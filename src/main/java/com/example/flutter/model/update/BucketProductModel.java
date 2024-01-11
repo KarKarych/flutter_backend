@@ -1,12 +1,15 @@
 package com.example.flutter.model.update;
 
-import jakarta.validation.constraints.NotEmpty;
+import com.example.flutter.entity.enumeration.SizeType;
+import com.example.flutter.util.validation.group.CreateGroup;
+import com.example.flutter.util.validation.group.DeleteGroup;
 import jakarta.validation.constraints.NotNull;
 
-import java.util.List;
 import java.util.UUID;
 
 public record BucketProductModel(
-        @NotEmpty @NotNull List<UUID> productIds
+        @NotNull(groups = {CreateGroup.class, DeleteGroup.class}) UUID productId,
+        @NotNull(groups = CreateGroup.class) SizeType size,
+        @NotNull(groups = {CreateGroup.class, DeleteGroup.class}) Integer amount
 ) {
 }

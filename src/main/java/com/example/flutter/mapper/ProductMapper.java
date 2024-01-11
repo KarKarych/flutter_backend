@@ -35,9 +35,10 @@ public abstract class ProductMapper {
     }
 
     @Named("sizesToModel")
-    List<SizeType> generateSizesToModel(List<Integer> sizesShort) {
+    List<String> generateSizesToModel(List<Integer> sizesShort) {
         return sizesShort.stream().sorted()
                 .map(SizeType::getValueFromId)
+                .map(SizeType::getDisplayMessage)
                 .toList();
     }
 }

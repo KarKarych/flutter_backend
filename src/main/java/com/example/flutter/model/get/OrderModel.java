@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public record OrderModel(
         UUID id,
-        List<ProductModel> products,
+        List<OrderProductModel> products,
         Integer amount,
         Instant createdAt,
         String status

@@ -8,6 +8,9 @@ public record UserModel(
         String email,
         String lastName,
         String firstName,
-        Integer balance
+        Integer balance,
+        String phoneNumber,
+        String address,
+        String pictureUrl
 ) {
 }

@@ -2,7 +2,7 @@ package com.example.flutter.controller;
 
 import com.example.flutter.entity.FlutterUser;
 import com.example.flutter.model.basic.ContentModel;
-import com.example.flutter.model.get.ProductModel;
+import com.example.flutter.model.get.OrderProductModel;
 import com.example.flutter.model.update.BucketProductModel;
 import com.example.flutter.service.BucketService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -21,7 +21,7 @@ public class BucketController {
     private final BucketService service;
 
     @GetMapping("/products")
-    public ContentModel<List<ProductModel>> getByUserId(
+    public ContentModel<List<OrderProductModel>> getByUserId(
             @AuthenticationPrincipal FlutterUser currentUser
     ) {
         var response = service.getByUserId(currentUser.getId());
@@ -29,18 +29,18 @@ public class BucketController {
     }
 
     @PutMapping("/products")
-    public ContentModel<List<ProductModel>> addToBucket(
+    public ContentModel<List<OrderProductModel>> addToBucket(
             @AuthenticationPrincipal FlutterUser currentUser,
-            @RequestBody BucketProductModel request
+            @RequestBody List<BucketProductModel> request
     ) {
         var response = service.addToBucket(currentUser, request);
         return ContentModel.okContentModel(response);
     }
 
     @DeleteMapping("/products")
-    public ContentModel<List<ProductModel>> removeFromBucket(
+    public ContentModel<List<OrderProductModel>> removeFromBucket(
             @AuthenticationPrincipal FlutterUser currentUser,
-            @RequestBody BucketProductModel request
+            @RequestBody List<BucketProductModel>  request
     ) {
         var response = service.removeFromBucket(currentUser, request);
         return ContentModel.okContentModel(response);

@@ -49,6 +49,16 @@ public class FlutterUser implements UserDetails {
     @Column(name = "balance", nullable = false)
     private Integer balance;
 
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
+    @Column(name = "address")
+    private String address;
+
+    @NotNull
+    @Column(name = "picture_url", nullable = false)
+    private String pictureUrl;
+
     @Override
     public String getUsername() {
         return login;

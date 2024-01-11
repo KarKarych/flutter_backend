@@ -2,8 +2,7 @@ package com.example.flutter.service.impl;
 
 import com.example.flutter.entity.FlutterUser;
 import com.example.flutter.mapper.BucketMapper;
-import com.example.flutter.mapper.ProductMapper;
-import com.example.flutter.model.get.ProductModel;
+import com.example.flutter.model.get.OrderProductModel;
 import com.example.flutter.model.update.BucketProductModel;
 import com.example.flutter.repository.BucketRepository;
 import com.example.flutter.repository.ProductRepository;
@@ -15,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.UUID;
 
+import static com.example.flutter.util.exception.NotFoundException.Code.PRODUCT_IN_BUCKET_NOT_FOUND;
+
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
@@ -22,29 +23,28 @@ public class BucketServiceImpl implements BucketService {
 
     private final BucketRepository bucketRepository;
     private final ProductRepository productRepository;
-    private final ProductMapper productMapper;
     private final BucketMapper bucketMapper;
 
     @Override
-    public List<ProductModel> getByUserId(UUID userId) {
-        return bucketRepository.findByIdUserId(userId).stream()
-                .map(productMapper::toModel)
+    public List<OrderProductModel> getByUserId(UUID userId) {
+        return bucketRepository.findByUserId(userId).stream()
+                .map(bucketMapper::toModel)
                 .toList();
     }
 
     @Override
     @Transactional
-    public List<ProductModel> addToBucket(FlutterUser user, BucketProductModel request) {
-        productRepository.findAllById(request.productIds()).stream()
-                .map(product -> bucketMapper.toEntity(product, user))
+    public List<OrderProductModel> addToBucket(FlutterUser user, List<BucketProductModel> request) {
+        request.stream()
+                .map(model -> bucketMapper.toEntity(model, productRepository.findById(model.productId()), user))
                 .forEach(bucketRepository::save);
         return getByUserId(user.getId());
     }
 
     @Override
     @Transactional
-    public List<ProductModel> removeFromBucket(FlutterUser user, BucketProductModel request) {
-        bucketRepository.deleteByUserAndProductIdIn(user, request.productIds());
+    public List<OrderProductModel> removeFromBucket(FlutterUser user, List<BucketProductModel> request) {
+        request.forEach(model -> removeFromBucket(user, model));
         return getByUserId(user.getId());
     }
 
@@ -52,5 +52,20 @@ public class BucketServiceImpl implements BucketService {
     @Transactional
     public void clear(UUID userId) {
         bucketRepository.deleteByIdUserId(userId);
+    }
+
+    private void removeFromBucket(FlutterUser user, BucketProductModel model) {
+        var bucketPersisted = bucketRepository.findByUserAndProductId(user, model.productId())
+                .orElseThrow(() -> PRODUCT_IN_BUCKET_NOT_FOUND.get(user.getLogin(), "productId = %s".formatted(model.productId())));
+
+        var amountRequest = model.amount();
+        var amountPersisted = bucketPersisted.getAmount();
+
+        if (amountRequest >= amountPersisted) {
+            bucketRepository.delete(bucketPersisted);
+            return;
+        }
+
+        bucketPersisted.setAmount(amountPersisted - amountRequest);
     }
 }
