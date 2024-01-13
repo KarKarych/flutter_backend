@@ -4,7 +4,7 @@ WORKDIR $APP_HOME
 COPY build.gradle settings.gradle gradlew $APP_HOME
 COPY gradle $APP_HOME/gradle
 RUN ./gradlew build
-COPY . .
+COPY src $APP_HOME/src
 RUN ./gradlew build
 
 FROM amazoncorretto:17-alpine-jdk AS layer_builder
