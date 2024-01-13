@@ -48,7 +48,7 @@ public class ProductSpecification implements Specification<Product> {
         List<Predicate> predicates = new ArrayList<>();
 
         String searchQuery = filterRequest.searchQuery();
-        if (searchQuery != null) {
+        if (searchQuery != null && !searchQuery.isEmpty()) {
             Path<String> name = product.get("name");
             Path<String> description = product.get("description");
             predicates.add(builder.or(
