@@ -24,6 +24,10 @@ public enum SizeType {
         return id.shortValue();
     }
 
+    public Integer getIntId() {
+        return id;
+    }
+
     public static SizeType getValueFromId(Short value) {
         if (value == null) {
             return null;

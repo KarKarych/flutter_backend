@@ -25,6 +25,7 @@ public class NotFoundException extends RuntimeException {
         PRODUCT_NOT_FOUND("Product not found"),
         PRODUCT_IN_BUCKET_NOT_FOUND("Product in bucket not found"),
         ARTICLE_NOT_FOUND("Article not found"),
+        SIZE_IN_PRODUCT_NOT_FOUND("Product does not have specified size"),
         ;
 
         /**

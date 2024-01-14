@@ -3,6 +3,7 @@ package com.example.flutter.repository;
 import com.example.flutter.entity.Bucket;
 import com.example.flutter.entity.FlutterUser;
 import com.example.flutter.entity.composite.BucketId;
+import com.example.flutter.entity.enumeration.SizeType;
 import com.example.flutter.repository.base.ExtendedRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -17,7 +18,8 @@ public interface BucketRepository extends ExtendedRepository<Bucket, BucketId> {
              FROM   Bucket b
               JOIN FETCH b.product p
              WHERE  b.user.id = :userId
-             ORDER BY p.name
+             ORDER BY p.name, b.id.size
+                       
             """)
     List<Bucket> findByUserId(UUID userId);
 
@@ -25,10 +27,10 @@ public interface BucketRepository extends ExtendedRepository<Bucket, BucketId> {
             SELECT  b
              FROM   Bucket b
              WHERE  b.user = :user AND
-                    b.product.id = :productId
-             
+                    b.product.id = :productId AND
+                    b.id.size = :size
             """)
-    Optional<Bucket> findByUserAndProductId(FlutterUser user, UUID productId);
+    Optional<Bucket> findByUserAndProductIdAndSize(FlutterUser user, UUID productId, SizeType size);
 
     void deleteByIdUserId(UUID userId);
 }

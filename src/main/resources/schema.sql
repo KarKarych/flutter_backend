@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS "bucket"
     user_id    UUID     NOT NULL REFERENCES "user",
     size       SMALLINT NOT NULL,
     amount     INT      NOT NULL DEFAULT 0,
-    PRIMARY KEY (product_id, user_id)
+    PRIMARY KEY (product_id, user_id, size)
 );
 
 CREATE TABLE IF NOT EXISTS "order"

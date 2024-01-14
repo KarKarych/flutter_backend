@@ -1,5 +1,6 @@
 package com.example.flutter.entity.composite;
 
+import com.example.flutter.entity.enumeration.SizeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotNull;
@@ -28,17 +29,22 @@ public class BucketId implements Serializable {
     @Column(name = "user_id", nullable = false)
     private UUID userId;
 
+    @NotNull
+    @Column(name = "size", nullable = false)
+    private SizeType size;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         BucketId entity = (BucketId) o;
         return Objects.equals(this.productId, entity.productId) &&
+                Objects.equals(this.size, entity.size) &&
                 Objects.equals(this.userId, entity.userId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(productId, userId);
+        return Objects.hash(productId, size, userId);
     }
 }

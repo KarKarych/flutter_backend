@@ -40,9 +40,18 @@ public class BucketController {
     @DeleteMapping("/products")
     public ContentModel<List<OrderProductModel>> removeFromBucket(
             @AuthenticationPrincipal FlutterUser currentUser,
-            @RequestBody List<BucketProductModel>  request
+            @RequestBody List<BucketProductModel> request
     ) {
         var response = service.removeFromBucket(currentUser, request);
+        return ContentModel.okContentModel(response);
+    }
+
+    @PutMapping("/products/amount")
+    public ContentModel<List<OrderProductModel>> changeProductAmount(
+            @AuthenticationPrincipal FlutterUser currentUser,
+            @RequestBody BucketProductModel request
+    ) {
+        var response = service.changeProductAmount(currentUser, request);
         return ContentModel.okContentModel(response);
     }
 

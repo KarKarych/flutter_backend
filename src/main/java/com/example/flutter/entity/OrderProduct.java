@@ -39,7 +39,7 @@ public class OrderProduct {
     private Integer amount;
 
     public static OrderProduct fromBucket(Order order, Bucket bucket) {
-        return new OrderProduct(order, bucket.getProduct(), bucket.getSize(), bucket.getAmount());
+        return new OrderProduct(order, bucket.getProduct(), bucket.getId().getSize(), bucket.getAmount());
     }
 
     public OrderProduct(Order order, Product product, SizeType size, Integer amount) {

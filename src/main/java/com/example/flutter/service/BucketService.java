@@ -29,5 +29,11 @@ public interface BucketService {
             @Valid @NotNull(groups = DeleteGroup.class) List<BucketProductModel> request
     );
 
+    @Validated(DeleteGroup.class)
+    List<OrderProductModel> changeProductAmount(
+            @NotNull(groups = DeleteGroup.class) FlutterUser currentUser,
+            @Valid @NotNull(groups = DeleteGroup.class) BucketProductModel request
+    );
+
     void clear(@NotNull UUID userId);
 }

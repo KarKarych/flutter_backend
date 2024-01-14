@@ -44,7 +44,14 @@ public class BucketServiceImpl implements BucketService {
     @Override
     @Transactional
     public List<OrderProductModel> removeFromBucket(FlutterUser user, List<BucketProductModel> request) {
-        request.forEach(model -> removeFromBucket(user, model));
+        request.forEach(model -> changeBucketProductAmount(user, model));
+        return getByUserId(user.getId());
+    }
+
+    @Override
+    @Transactional
+    public List<OrderProductModel> changeProductAmount(FlutterUser user, BucketProductModel request) {
+        changeBucketProductAmount(user, request);
         return getByUserId(user.getId());
     }
 
@@ -54,18 +61,17 @@ public class BucketServiceImpl implements BucketService {
         bucketRepository.deleteByIdUserId(userId);
     }
 
-    private void removeFromBucket(FlutterUser user, BucketProductModel model) {
-        var bucketPersisted = bucketRepository.findByUserAndProductId(user, model.productId())
+    private void changeBucketProductAmount(FlutterUser user, BucketProductModel model) {
+        var bucketPersisted = bucketRepository.findByUserAndProductIdAndSize(user, model.productId(), model.size())
                 .orElseThrow(() -> PRODUCT_IN_BUCKET_NOT_FOUND.get(user.getLogin(), "productId = %s".formatted(model.productId())));
 
         var amountRequest = model.amount();
-        var amountPersisted = bucketPersisted.getAmount();
 
-        if (amountRequest >= amountPersisted) {
+        if (amountRequest == 0) {
             bucketRepository.delete(bucketPersisted);
             return;
         }
 
-        bucketPersisted.setAmount(amountPersisted - amountRequest);
+        bucketPersisted.setAmount(amountRequest);
     }
 }

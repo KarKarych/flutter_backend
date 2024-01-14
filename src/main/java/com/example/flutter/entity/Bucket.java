@@ -29,18 +29,13 @@ public class Bucket {
     private FlutterUser user;
 
     @NotNull
-    @Column(name = "size", nullable = false)
-    private SizeType size;
-
-    @NotNull
     @Column(name = "amount", nullable = false)
     private Integer amount;
 
     public Bucket(Product product, FlutterUser user, SizeType size, Integer amount) {
-        this.id = new BucketId(product.getId(), user.getId());
+        this.id = new BucketId(product.getId(), user.getId(), size);
         this.product = product;
         this.user = user;
-        this.size = size;
         this.amount = amount;
     }
 }
