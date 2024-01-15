@@ -7,10 +7,15 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.Instant;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "bucket", schema = "public")
 @Entity
 public class Bucket {
@@ -31,6 +36,11 @@ public class Bucket {
     @NotNull
     @Column(name = "amount", nullable = false)
     private Integer amount;
+
+    @NotNull
+    @CreatedDate
+    @Column(name = "created_at", nullable = false)
+    private Instant createdAt;
 
     public Bucket(Product product, FlutterUser user, SizeType size, Integer amount) {
         this.id = new BucketId(product.getId(), user.getId(), size);

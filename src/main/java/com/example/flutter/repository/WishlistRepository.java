@@ -18,7 +18,7 @@ public interface WishlistRepository extends JpaRepository<Wishlist, WishlistId> 
              FROM   Wishlist w
               JOIN  w.product p
              WHERE  w.user.id = :userId
-             ORDER BY p.name
+             ORDER BY w.createdAt
             """)
     List<Product> findByIdUserId(UUID userId);
 

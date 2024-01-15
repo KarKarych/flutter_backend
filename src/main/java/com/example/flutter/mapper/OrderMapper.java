@@ -29,7 +29,7 @@ public interface OrderMapper {
 
     @AfterMapping
     default void sortProductsByName(@MappingTarget OrderModel orderModel) {
-        orderModel.products().sort(Comparator.comparing(OrderProductModel::productName));
+        orderModel.products().sort(Comparator.comparing(OrderProductModel::createdAt));
     }
 
     @Mapping(target = "id", ignore = true)

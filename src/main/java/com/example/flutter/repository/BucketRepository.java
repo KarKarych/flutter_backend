@@ -16,10 +16,9 @@ public interface BucketRepository extends ExtendedRepository<Bucket, BucketId> {
     @Query(value = """
             SELECT  b
              FROM   Bucket b
-              JOIN FETCH b.product p
+              JOIN FETCH b.product
              WHERE  b.user.id = :userId
-             ORDER BY p.name, b.id.size
-                       
+             ORDER BY b.createdAt
             """)
     List<Bucket> findByUserId(UUID userId);
 

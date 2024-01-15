@@ -45,17 +45,19 @@ CREATE TABLE IF NOT EXISTS "article_category"
 
 CREATE TABLE IF NOT EXISTS "wishlist"
 (
-    product_id UUID NOT NULL REFERENCES "product",
-    user_id    UUID NOT NULL REFERENCES "user",
+    product_id UUID        NOT NULL REFERENCES "product",
+    user_id    UUID        NOT NULL REFERENCES "user",
+    created_at TIMESTAMPTZ NOT NULL,
     PRIMARY KEY (product_id, user_id)
 );
 
 CREATE TABLE IF NOT EXISTS "bucket"
 (
-    product_id UUID     NOT NULL REFERENCES "product",
-    user_id    UUID     NOT NULL REFERENCES "user",
-    size       SMALLINT NOT NULL,
-    amount     INT      NOT NULL DEFAULT 0,
+    product_id UUID        NOT NULL REFERENCES "product",
+    user_id    UUID        NOT NULL REFERENCES "user",
+    size       SMALLINT    NOT NULL,
+    amount     INT         NOT NULL DEFAULT 0,
+    created_at TIMESTAMPTZ NOT NULL,
     PRIMARY KEY (product_id, user_id, size)
 );
 
@@ -69,10 +71,11 @@ CREATE TABLE IF NOT EXISTS "order"
 
 CREATE TABLE IF NOT EXISTS "order_product"
 (
-    order_id   UUID     NOT NULL REFERENCES "order",
-    product_id UUID     NOT NULL REFERENCES "product",
-    size       SMALLINT NOT NULL,
-    amount     INT      NOT NULL DEFAULT 0,
+    order_id   UUID        NOT NULL REFERENCES "order",
+    product_id UUID        NOT NULL REFERENCES "product",
+    size       SMALLINT    NOT NULL,
+    amount     INT         NOT NULL DEFAULT 0,
+    created_at TIMESTAMPTZ NOT NULL,
     PRIMARY KEY (order_id, product_id)
 );
 
@@ -81,7 +84,7 @@ CREATE TABLE IF NOT EXISTS "transaction"
     id         UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id    UUID        NOT NULL REFERENCES "user",
     amount     INT         NOT NULL,
-    created_at TIMESTAMPTZ NOT NULL,
     type       SMALLINT    NOT NULL,
-    target     VARCHAR     NOT NULL
+    target     VARCHAR     NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL
 );

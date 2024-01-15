@@ -1,16 +1,13 @@
 package com.example.flutter.model.get;
 
 import com.example.flutter.entity.enumeration.SizeType;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.time.Instant;
 
 public record OrderProductModel(
         ProductModel product,
         SizeType size,
-        Integer amount
+        Integer amount,
+        Instant createdAt
 ) {
-
-    @JsonIgnore
-    public String productName() {
-        return product.name();
-    }
 }

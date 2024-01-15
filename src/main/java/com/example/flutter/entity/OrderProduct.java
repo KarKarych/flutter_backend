@@ -7,12 +7,16 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.Instant;
 import java.util.Objects;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "order_product", schema = "public")
 @Entity
 public class OrderProduct {
@@ -37,6 +41,11 @@ public class OrderProduct {
     @NotNull
     @Column(name = "amount", nullable = false)
     private Integer amount;
+
+    @NotNull
+    @CreatedDate
+    @Column(name = "created_at", nullable = false)
+    private Instant createdAt;
 
     public static OrderProduct fromBucket(Order order, Bucket bucket) {
         return new OrderProduct(order, bucket.getProduct(), bucket.getId().getSize(), bucket.getAmount());
