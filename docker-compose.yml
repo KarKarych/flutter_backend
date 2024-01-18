@@ -1,0 +1,27 @@
+services:
+  flutter_backend:
+    image: wvolfff/flutter_backend:latest
+    container_name: flutter_backend
+    restart: on-failure
+    #    environment:
+    #      - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY=TRACE
+    depends_on:
+      - postgres_flutter
+    ports:
+      - 7766:7766
+
+  postgres_flutter:
+    image: postgres:latest
+    container_name: postgres_flutter
+    environment:
+      POSTGRES_DB: flutter
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123321
+    volumes:
+      - postgres_flutter_vol:/var/lib/postgresql/data
+    ports:
+      - 7755:5432
+
+volumes:
+  postgres_flutter_vol:
+    driver: local
