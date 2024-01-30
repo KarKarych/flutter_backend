@@ -70,7 +70,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private Order saveOrder(Order orderTransient, List<Bucket> productsToBuy) {
-        var orderPersisted = orderRepository.saveAndFlush(orderTransient);
+        var orderPersisted = orderRepository.save(orderTransient);
         orderPersisted.addProducts(orderProductMapper.toEntities(orderPersisted, productsToBuy));
         return orderPersisted;
     }
