@@ -1,6 +1,7 @@
 package com.example.flutter.mapper;
 
-import com.example.flutter.entity.*;
+import com.example.flutter.entity.Article;
+import com.example.flutter.entity.ArticleCategory;
 import com.example.flutter.entity.composite.ArticleCategoryId;
 import com.example.flutter.entity.enumeration.ArticleCategoryType;
 import com.example.flutter.model.get.ArticleModel;

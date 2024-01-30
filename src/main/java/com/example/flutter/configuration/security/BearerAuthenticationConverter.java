@@ -12,11 +12,19 @@ import java.util.UUID;
 
 import static com.example.flutter.util.Constants.AUTHORIZATION_HEADER_START;
 import static com.example.flutter.util.Constants.FAKE_PASSWORD;
-import static java.util.UUID.fromString;
 
 @Slf4j
 @RequiredArgsConstructor
 public class BearerAuthenticationConverter implements AuthenticationConverter {
+
+    private static UUID getPrincipal(String rawToken) {
+        try {
+            return UUID.fromString(rawToken);
+        } catch (IllegalArgumentException ex) {
+            log.debug("Bad UUID in token {}", rawToken);
+            return null;
+        }
+    }
 
     @Override
     public Authentication convert(HttpServletRequest request) {
@@ -34,14 +42,5 @@ public class BearerAuthenticationConverter implements AuthenticationConverter {
         }
 
         return new PreAuthenticatedAuthenticationToken(principal, FAKE_PASSWORD);
-    }
-
-    private static UUID getPrincipal(String rawToken) {
-        try {
-            return fromString(rawToken);
-        } catch (IllegalArgumentException ex) {
-            log.debug("Bad UUID in token {}", rawToken);
-            return null;
-        }
     }
 }

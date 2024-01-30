@@ -8,7 +8,6 @@ import com.example.flutter.mapper.OrderProductMapper;
 import com.example.flutter.model.filter.OrderFilter;
 import com.example.flutter.model.get.OrderModel;
 import com.example.flutter.repository.BucketRepository;
-import com.example.flutter.repository.OrderProductRepository;
 import com.example.flutter.repository.OrderRepository;
 import com.example.flutter.service.BucketService;
 import com.example.flutter.service.OrderService;
@@ -30,7 +29,6 @@ import static com.example.flutter.util.exception.BadRequestException.Code.BUCKET
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
-    private final OrderProductRepository orderProductRepository;
     private final BucketRepository bucketRepository;
     private final OrderMapper orderMapper;
     private final OrderProductMapper orderProductMapper;
@@ -72,10 +70,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private Order saveOrder(Order orderTransient, List<Bucket> productsToBuy) {
-        var orderPersisted = orderRepository.save(orderTransient);
-        var orderProductsTransient = orderProductMapper.toEntities(orderPersisted, productsToBuy);
-        orderProductRepository.saveAllAndFlush(orderProductsTransient);
-        orderRepository.refresh(orderPersisted);
+        var orderPersisted = orderRepository.saveAndFlush(orderTransient);
+        orderPersisted.addProducts(orderProductMapper.toEntities(orderPersisted, productsToBuy));
         return orderPersisted;
     }
 

@@ -45,8 +45,8 @@ public class ExtendedRepositoryImpl<T, ID extends Serializable>
     @Override
     public List<T> saveAllAndRefresh(List<T> entity) {
         return entity.stream()
-            .map(this::saveAndRefresh)
-            .collect(Collectors.toList());
+                .map(this::saveAndRefresh)
+                .collect(Collectors.toList());
     }
 
     @Override

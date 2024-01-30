@@ -22,11 +22,6 @@ public enum ProductCategoryType {
         this.displayMessage = displayMessage;
     }
 
-    @JsonValue
-    public Short getId() {
-        return id.shortValue();
-    }
-
     public static ProductCategoryType getValueFromId(Short value) {
         if (value == null) {
             return null;
@@ -37,6 +32,11 @@ public enum ProductCategoryType {
             }
         }
         return null;
+    }
+
+    @JsonValue
+    public Short getId() {
+        return id.shortValue();
     }
 
     @Override

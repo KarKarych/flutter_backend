@@ -7,8 +7,7 @@ import lombok.Getter;
 public enum OperationType {
 
     TOP_UP(1, "Пополнение"),
-    PAYMENT(2, "Оплата")
-    ;
+    PAYMENT(2, "Оплата");
 
     private final Integer id;
     private final String displayMessage;
@@ -16,15 +15,6 @@ public enum OperationType {
     OperationType(Integer id, String displayMessage) {
         this.id = id;
         this.displayMessage = displayMessage;
-    }
-
-    public Short getId() {
-        return id.shortValue();
-    }
-
-    @JsonValue
-    public String getDisplayMessage() {
-        return displayMessage;
     }
 
     public static OperationType getValueFromId(Short value) {
@@ -37,5 +27,14 @@ public enum OperationType {
             }
         }
         return null;
+    }
+
+    public Short getId() {
+        return id.shortValue();
+    }
+
+    @JsonValue
+    public String getDisplayMessage() {
+        return displayMessage;
     }
 }

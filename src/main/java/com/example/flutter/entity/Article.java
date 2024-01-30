@@ -17,7 +17,7 @@ import java.util.UUID;
 @Table(name = "article", schema = "public")
 @Entity
 public class Article {
-    
+
     @Id
     @Column(name = "id", nullable = false)
     private UUID id;

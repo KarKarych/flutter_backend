@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS "order_product"
     size       SMALLINT    NOT NULL,
     amount     INT         NOT NULL DEFAULT 0,
     created_at TIMESTAMPTZ NOT NULL,
-    PRIMARY KEY (order_id, product_id)
+    PRIMARY KEY (order_id, product_id, size)
 );
 
 CREATE TABLE IF NOT EXISTS "transaction"

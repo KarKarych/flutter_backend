@@ -35,10 +35,6 @@ public class OrderProduct {
     private Product product;
 
     @NotNull
-    @Column(name = "size", nullable = false)
-    private SizeType size;
-
-    @NotNull
     @Column(name = "amount", nullable = false)
     private Integer amount;
 
@@ -47,16 +43,15 @@ public class OrderProduct {
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
 
-    public static OrderProduct fromBucket(Order order, Bucket bucket) {
-        return new OrderProduct(order, bucket.getProduct(), bucket.getId().getSize(), bucket.getAmount());
-    }
-
     public OrderProduct(Order order, Product product, SizeType size, Integer amount) {
-        this.id = new OrderProductId(order.getId(), product.getId());
+        this.id = new OrderProductId(order.getId(), product.getId(), size);
         this.order = order;
         this.product = product;
-        this.size = size;
         this.amount = amount;
+    }
+
+    public static OrderProduct of(Order order, Bucket bucket) {
+        return new OrderProduct(order, bucket.getProduct(), bucket.getId().getSize(), bucket.getAmount());
     }
 
     public Integer getFullPrice() {

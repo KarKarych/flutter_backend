@@ -19,7 +19,7 @@ import java.util.UUID;
 @Transactional(readOnly = true)
 @Service
 public class WishlistServiceImpl implements WishlistService {
-    
+
     private final WishlistRepository wishlistRepository;
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;

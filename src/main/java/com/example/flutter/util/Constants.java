@@ -13,6 +13,8 @@ public class Constants {
 
     public final static String SEARCH_PATTERN = "%%%s%%";
 
+    public final static String PAYMENT_TARGET = "Баланс кошелька";
+
     private final static String[] BANKS = {
             "Сбер", "Тинькофф Банк", "ВТБ", "Альфа-Банк",
             "Райффайзен Банк", "Газпромбанк", "Банк ДОМ.РФ"
@@ -21,6 +23,4 @@ public class Constants {
     public static String getRandomBank() {
         return BANKS[ThreadLocalRandom.current().nextInt(0, BANKS.length)];
     }
-
-    public final static String PAYMENT_TARGET = "Баланс кошелька";
 }

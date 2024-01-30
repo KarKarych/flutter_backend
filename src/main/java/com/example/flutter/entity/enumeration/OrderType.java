@@ -20,10 +20,6 @@ public enum OrderType {
         this.displayMessage = displayMessage;
     }
 
-    public Short getId() {
-        return id.shortValue();
-    }
-
     public static OrderType getValueFromId(Short value) {
         if (value == null) {
             return null;
@@ -39,5 +35,9 @@ public enum OrderType {
     public static OrderType getRandom() {
         int randomStatus = ThreadLocalRandom.current().nextInt(0, values().length);
         return values()[randomStatus];
+    }
+
+    public Short getId() {
+        return id.shortValue();
     }
 }
